@@ -1,5 +1,6 @@
 ﻿//using ServiceTest.Models;
 //using ServiceTest.Services;
+using ServiceTest.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,14 @@ namespace ServiceTest.ViewModels
 {
     public class MainPageViewModel:ViewModel
     {
-       
-        public MainPageViewModel()
+        private string message;
+        public string Message { get { return message; } set { message = value; OnPropertyChange(); } }
+        public ICommand GetMessage { get; protected set; }
+        public MainPageViewModel(TriviaService s)
         {
-            
+            triviaservice = s;
+
+            GetMessage = new Command(async () => Message = await triviaservice.CheckConectionAsync());
         }
 
        
